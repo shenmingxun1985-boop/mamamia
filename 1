@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>스트레스 해소 & 소원 성취 룸</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .speech-bubble {
+      background-color: #FFFFFF;
+      border: 2px solid #000000;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+      font-weight: 900;
+      color: #111827;
+      pointer-events: none;
+      animation: floatUpFade 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+      white-space: nowrap;
+    }
+    @keyframes floatUpFade {
+      0% { opacity: 0; transform: translateY(10px) scale(0.9); }
+      15% { opacity: 1; transform: translateY(0) scale(1); }
+      75% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-18px) scale(0.95); }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-white min-h-screen flex flex-col font-sans overflow-x-hidden">
+
+  <!-- 상단 모드 탭 -->
+  <header class="p-3 bg-slate-950/80 backdrop-blur sticky top-0 z-30 border-b border-slate-800">
+    <div class="max-w-md mx-auto flex gap-2">
+      <button id="btnModeBoss" onclick="switchMode('boss')" class="flex-1 py-2 px-1 text-xs font-bold rounded-lg transition-all bg-indigo-600 text-white shadow-lg">
+        👔 꼰대부장
+      </button>
+      <button id="btnModeStraw" onclick="switchMode('straw')" class="flex-1 py-2 px-1 text-xs font-bold rounded-lg transition-all bg-slate-800 text-slate-400 hover:bg-slate-700">
+        🌾 볏짚 저주
+      </button>
+      <button id="btnModePig" onclick="switchMode('pig')" class="flex-1 py-2 px-1 text-xs font-bold rounded-lg transition-all bg-slate-800 text-slate-400 hover:bg-slate-700">
+        🐷 황금 소원
+      </button>
+    </div>
+  </header>
+
+  <!-- 가이드 안내 배너 -->
+  <div id="guideBanner" class="bg-indigo-950/70 border-b border-indigo-800/50 text-indigo-200 text-xs text-center py-2 px-3 transition-colors">
+    💥 신나게 때려 스트레스를 날려버리세요!
+  </div>
+
+  <!-- 메인 캔버스 영역 -->
+  <main class="relative flex-1 flex flex-col items-center justify-center p-2">
+    <!-- 타격 횟수 카운터 -->
+    <div class="absolute top-3 left-4 z-10 flex flex-col">
+      <span class="text-xs text-slate-400 font-bold" id="counterLabel">누적 타격</span>
+      <span class="text-2xl font-black text-amber-400" id="hitCountDisplay">0</span>
+    </div>
+
+    <!-- 얼굴 사진 등록 버튼 -->
+    <div class="absolute top-3 right-4 z-10 flex gap-2">
+      <label class="cursor-pointer bg-slate-800/90 hover:bg-slate-700 border border-slate-600 px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 shadow">
+        📷 <span>얼굴 변경</span>
+        <input type="file" id="faceInput" accept="image/*" class="hidden">
+      </label>
+      <button id="btnRemoveFace" onclick="removeCustomFace()" class="hidden bg-rose-900/80 hover:bg-rose-800 border border-rose-600 px-2 py-1.5 rounded-full text-xs font-bold">
+        ✕
+      </button>
+    </div>
+
+    <!-- 캔버스 및 말풍선 오버레이 -->
+    <div class="relative w-full max-w-md aspect-[3/4] max-h-[65vh] bg-slate-950/50 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
+      <canvas id="gameCanvas" class="w-full h-full block cursor-pointer"></canvas>
+      <!-- 말풍선 컨테이너 -->
+      <div id="bubbleContainer" class="absolute inset
